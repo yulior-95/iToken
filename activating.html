@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iToken - 激活中</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      background: #FFFFFF;
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none;
+    }
+    .page-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    }
+
+    .activating-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* 圆形进度 */
+    .progress-ring-container {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin-bottom: 32px;
+    }
+
+    .progress-ring {
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring-bg {
+      fill: none;
+      stroke: #E2E8F0;
+      stroke-width: 8;
+    }
+
+    .progress-ring-bar {
+      fill: none;
+      stroke: url(#progressGradient);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 477;
+      stroke-dashoffset: 143;
+    }
+
+    .progress-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .progress-icon {
+      font-size: 40px;
+      color: #0066FF;
+      margin-bottom: 8px;
+      animation: iconPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes iconPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .progress-percent {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1E293B;
+    }
+
+    .activating-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1E293B;
+    }
+
+    .activating-desc {
+      font-size: 14px;
+      color: #64748B;
+      margin-bottom: 36px;
+    }
+
+    /* 步骤状态 */
+    .activation-steps {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .activation-step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    .activation-step.active {
+      border-color: #0066FF;
+      background: rgba(0, 102, 255, 0.03);
+    }
+
+    .activation-step.completed {
+      border-color: #10B981;
+    }
+
+    .step-indicator {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .activation-step.pending .step-indicator {
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      color: #94A3B8;
+    }
+
+    .activation-step.active .step-indicator {
+      background: #0066FF;
+      color: white;
+    }
+
+    .activation-step.completed .step-indicator {
+      background: #10B981;
+      color: white;
+    }
+
+    .step-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .step-info .title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1E293B;
+      margin-bottom: 2px;
+    }
+
+    .step-info .status {
+      font-size: 12px;
+      color: #94A3B8;
+    }
+
+    .activation-step.active .step-info .status {
+      color: #0066FF;
+    }
+
+    .activation-step.completed .step-info .status {
+      color: #10B981;
+    }
+
+    .step-loading {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #E2E8F0;
+      border-top-color: #0066FF;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .step-check {
+      color: #10B981;
+      font-size: 16px;
+    }
+
+    /* 安全提示 */
+    .security-notice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 32px;
+      padding: 10px 16px;
+      background: rgba(16, 185, 129, 0.08);
+      border-radius: 10px;
+      font-size: 13px;
+      color: #10B981;
+    }
+
+    /* 取消按钮 */
+    .cancel-section {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .cancel-btn {
+      color: #94A3B8;
+      font-size: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <div class="icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <div class="activating-content">
+      <!-- 圆形进度 -->
+      <div class="progress-ring-container">
+        <svg class="progress-ring" width="180" height="180">
+          <defs>
+            <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#0066FF"/>
+              <stop offset="100%" style="stop-color:#00C2FF"/>
+            </linearGradient>
+          </defs>
+          <circle class="progress-ring-bg" cx="90" cy="90" r="76"/>
+          <circle class="progress-ring-bar" cx="90" cy="90" r="76"/>
+        </svg>
+        <div class="progress-center">
+          <i class="fas fa-microchip progress-icon"></i>
+          <div class="progress-percent">70%</div>
+        </div>
+      </div>
+
+      <h1 class="activating-title">正在激活 iToken</h1>
+      <p class="activating-desc">请保持网络连接，不要关闭应用</p>
+
+      <!-- 步骤状态 -->
+      <div class="activation-steps">
+        <div class="activation-step completed">
+          <div class="step-indicator">
+            <i class="fas fa-check"></i>
+          </div>
+          <div class="step-info">
+            <div class="title">发送激活请求</div>
+            <div class="status">已完成</div>
+          </div>
+          <i class="fas fa-check-circle step-check"></i>
+        </div>
+
+        <div class="activation-step completed">
+          <div class="step-indicator">
+            <i class="fas fa-check"></i>
+          </div>
+          <div class="step-info">
+            <div class="title">获取激活许可</div>
+            <div class="status">已完成</div>
+          </div>
+          <i class="fas fa-check-circle step-check"></i>
+        </div>
+
+        <div class="activation-step active">
+          <div class="step-indicator">
+            <i class="fas fa-key"></i>
+          </div>
+          <div class="step-info">
+            <div class="title">生成安全密钥</div>
+            <div class="status">正在通过安全芯片生成...</div>
+          </div>
+          <div class="step-loading"></div>
+        </div>
+
+        <div class="activation-step pending">
+          <div class="step-indicator">4</div>
+          <div class="step-info">
+            <div class="title">签发数字证书</div>
+            <div class="status">等待中</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="security-notice">
+        <i class="fas fa-shield-check"></i>
+        <span>数据传输已加密，您的信息安全无忧</span>
+      </div>
+    </div>
+
+    <div class="cancel-section">
+      <button class="cancel-btn">取消激活</button>
+    </div>
+  </div>
+</body>
+</html>

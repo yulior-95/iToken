@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iToken - 验证码</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      background: #F8FAFC;
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none;
+    }
+    .page-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #F8FAFC;
+    }
+
+    .token-header {
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .page-title-small {
+      font-size: 17px;
+      font-weight: 600;
+      color: #1E293B;
+    }
+
+    .header-action {
+      font-size: 14px;
+      color: #0066FF;
+      cursor: pointer;
+    }
+
+    .token-content {
+      flex: 1;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .token-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* 账户信息 */
+    .account-card {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .account-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 22px;
+      margin-right: 14px;
+    }
+
+    .account-details {
+      flex: 1;
+    }
+
+    .account-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: #1E293B;
+      margin-bottom: 3px;
+    }
+
+    .account-id {
+      font-size: 13px;
+      color: #94A3B8;
+    }
+
+    .account-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 16px;
+      font-size: 12px;
+      color: #10B981;
+    }
+
+    .account-status i {
+      font-size: 8px;
+    }
+
+    /* 验证码显示 */
+    .code-display-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .code-label {
+      font-size: 14px;
+      color: #94A3B8;
+      margin-bottom: 14px;
+    }
+
+    .code-container {
+      padding: 28px 44px;
+      background: #FFFFFF;
+      border: 2px solid #0066FF;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.12);
+    }
+
+    .code-value {
+      font-family: 'SF Mono', monospace;
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: 10px;
+      color: #0066FF;
+    }
+
+    /* 计时器 */
+    .timer-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .timer-ring {
+      position: relative;
+      width: 72px;
+      height: 72px;
+    }
+
+    .timer-ring svg {
+      transform: rotate(-90deg);
+    }
+
+    .timer-ring-bg {
+      fill: none;
+      stroke: #E2E8F0;
+      stroke-width: 5;
+    }
+
+    .timer-ring-bar {
+      fill: none;
+      stroke: url(#timerGradient);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 188;
+      stroke-dashoffset: 56;
+    }
+
+    .timer-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 22px;
+      font-weight: 700;
+      color: #1E293B;
+    }
+
+    .timer-hint {
+      font-size: 14px;
+      color: #64748B;
+    }
+
+    .timer-hint strong {
+      color: #0066FF;
+    }
+
+    /* 操作按钮 */
+    .action-buttons {
+      display: flex;
+      gap: 14px;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .action-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 14px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      cursor: pointer;
+    }
+
+    .action-btn .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .action-btn .icon.copy {
+      background: rgba(0, 102, 255, 0.1);
+      color: #0066FF;
+    }
+
+    .action-btn .icon.refresh {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10B981;
+    }
+
+    .action-btn .label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1E293B;
+    }
+
+    /* 安全提示 */
+    .security-tips {
+      padding: 16px 20px 24px;
+    }
+
+    .tip-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.15);
+      border-radius: 12px;
+    }
+
+    .tip-card i {
+      font-size: 18px;
+      color: #F59E0B;
+      margin-top: 2px;
+    }
+
+    .tip-content {
+      flex: 1;
+    }
+
+    .tip-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #F59E0B;
+      margin-bottom: 4px;
+    }
+
+    .tip-desc {
+      font-size: 13px;
+      color: #64748B;
+      line-height: 1.4;
+    }
+
+    /* 底部导航 */
+    .tab-bar {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 26px;
+      background: #FFFFFF;
+      border-top: 1px solid #E2E8F0;
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #94A3B8;
+      text-decoration: none;
+      font-size: 11px;
+    }
+
+    .tab-item i {
+      font-size: 21px;
+    }
+
+    .tab-item.active {
+      color: #0066FF;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- 状态栏 -->
+    <div class="status-bar" style="background: #FFFFFF;">
+      <span class="time">9:41</span>
+      <div class="icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <!-- 头部 -->
+    <div class="token-header">
+      <div class="header-left">
+        <button class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <span class="page-title-small">iToken 验证码</span>
+      </div>
+      <span class="header-action">使用帮助</span>
+    </div>
+
+    <div class="token-content">
+      <!-- 账户信息 -->
+      <div class="account-card">
+        <div class="account-icon">
+          <i class="fas fa-message"></i>
+        </div>
+        <div class="account-details">
+          <div class="account-name">68 账户</div>
+          <div class="account-id">ID: 138****8888</div>
+        </div>
+        <div class="account-status">
+          <i class="fas fa-circle"></i>
+          <span>在线</span>
+        </div>
+      </div>
+
+      <!-- 验证码显示 -->
+      <div class="code-display-section">
+        <div class="code-label">当前验证码</div>
+        <div class="code-container">
+          <span class="code-value">385 721</span>
+        </div>
+
+        <!-- 计时器 -->
+        <div class="timer-section">
+          <div class="timer-ring">
+            <svg width="72" height="72">
+              <defs>
+                <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#0066FF"/>
+                  <stop offset="100%" style="stop-color:#00C2FF"/>
+                </linearGradient>
+              </defs>
+              <circle class="timer-ring-bg" cx="36" cy="36" r="30"/>
+              <circle class="timer-ring-bar" cx="36" cy="36" r="30"/>
+            </svg>
+            <span class="timer-text">21</span>
+          </div>
+          <span class="timer-hint">验证码将在 <strong>21秒</strong> 后刷新</span>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="action-buttons">
+          <div class="action-btn">
+            <div class="icon copy">
+              <i class="fas fa-copy"></i>
+            </div>
+            <span class="label">复制验证码</span>
+          </div>
+          <div class="action-btn">
+            <div class="icon refresh">
+              <i class="fas fa-rotate"></i>
+            </div>
+            <span class="label">手动刷新</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 安全提示 -->
+    <div class="security-tips">
+      <div class="tip-card">
+        <i class="fas fa-triangle-exclamation"></i>
+        <div class="tip-content">
+          <div class="tip-title">安全提示</div>
+          <div class="tip-desc">验证码仅用于您本人操作，请勿将验证码告知他人。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="tab-bar">
+      <a href="#" class="tab-item">
+        <i class="fas fa-house"></i>
+        <span>首页</span>
+      </a>
+      <a href="#" class="tab-item active">
+        <i class="fas fa-shield-halved"></i>
+        <span>安全</span>
+      </a>
+      <a href="#" class="tab-item">
+        <i class="fas fa-clock-rotate-left"></i>
+        <span>记录</span>
+      </a>
+      <a href="#" class="tab-item">
+        <i class="fas fa-user"></i>
+        <span>我的</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

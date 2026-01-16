@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iToken - 激活成功</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      background: #FFFFFF;
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none;
+    }
+    .page-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    }
+
+    .success-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .success-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* 成功动画 */
+    .success-animation {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin-bottom: 28px;
+    }
+
+    .success-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-icon {
+      width: 90px;
+      height: 90px;
+      background: #10B981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 32px rgba(16, 185, 129, 0.3);
+    }
+
+    .success-icon i {
+      font-size: 42px;
+      color: white;
+    }
+
+    .success-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #10B981;
+    }
+
+    .success-desc {
+      font-size: 14px;
+      color: #64748B;
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    /* 证书卡片 */
+    .certificate-card {
+      width: 100%;
+      max-width: 300px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .certificate-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    .certificate-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+    }
+
+    .certificate-info .name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1E293B;
+      margin-bottom: 2px;
+    }
+
+    .certificate-info .id {
+      font-size: 13px;
+      color: #94A3B8;
+    }
+
+    .certificate-details {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .detail-item .label {
+      font-size: 13px;
+      color: #94A3B8;
+    }
+
+    .detail-item .value {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1E293B;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .detail-item .value.success {
+      color: #10B981;
+    }
+
+    .detail-item .value i {
+      font-size: 10px;
+    }
+
+    /* 功能提示 */
+    .feature-tips {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .feature-tip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #F8FAFC;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    .feature-tip i {
+      font-size: 18px;
+      color: #0066FF;
+    }
+
+    .feature-tip span {
+      font-size: 13px;
+      color: #64748B;
+    }
+
+    .submit-section {
+      padding: 0 24px 36px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <div class="icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <div class="success-content">
+      <!-- 成功动画 -->
+      <div class="success-animation">
+        <div class="success-circle">
+          <div class="success-icon">
+            <i class="fas fa-check"></i>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="success-title">激活成功！</h1>
+      <p class="success-desc">您的 iToken 已成功激活<br>现在可以开始使用安全验证功能</p>
+
+      <!-- 证书卡片 -->
+      <div class="certificate-card">
+        <div class="certificate-header">
+          <div class="certificate-icon">
+            <i class="fas fa-message"></i>
+          </div>
+          <div class="certificate-info">
+            <div class="name">68 账户</div>
+            <div class="id">ID: 138****8888</div>
+          </div>
+        </div>
+        <div class="certificate-details">
+          <div class="detail-item">
+            <span class="label">激活状态</span>
+            <span class="value success">
+              <i class="fas fa-circle"></i>
+              已激活
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="label">激活时间</span>
+            <span class="value">2024-01-15 14:32</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">设备名称</span>
+            <span class="value">iPhone 15 Pro</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">证书有效期</span>
+            <span class="value">365 天</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 功能提示 -->
+      <div class="feature-tips">
+        <div class="feature-tip">
+          <i class="fas fa-shield-check"></i>
+          <span>您的账户已获得硬件级安全保护</span>
+        </div>
+        <div class="feature-tip">
+          <i class="fas fa-key"></i>
+          <span>每次验证都将使用设备安全芯片签名</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-section">
+      <div class="btn-group">
+        <button class="btn btn-primary">
+          <span>开始使用</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+        <button class="btn btn-secondary">
+          <i class="fas fa-cog"></i>
+          <span>前往设置</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iToken - 启动页</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none;
+    }
+    .splash-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    }
+
+    .splash-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 30% 20%, rgba(0, 102, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(0, 194, 255, 0.06) 0%, transparent 50%);
+    }
+
+    .splash-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .splash-logo {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #0066FF 0%, #00C2FF 100%);
+      border-radius: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      box-shadow: 0 16px 48px rgba(0, 102, 255, 0.3);
+      animation: logoFloat 3s ease-in-out infinite;
+    }
+
+    .splash-logo i {
+      font-size: 56px;
+      color: white;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .splash-title {
+      font-size: 38px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: #1E293B;
+    }
+
+    .splash-title span {
+      background: linear-gradient(135deg, #0066FF 0%, #00C2FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .splash-subtitle {
+      font-size: 16px;
+      color: #64748B;
+      margin-bottom: 48px;
+      letter-spacing: 1px;
+    }
+
+    .splash-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .splash-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .splash-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #0066FF;
+      animation: dotPulse 1.4s ease-in-out infinite;
+    }
+
+    .splash-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .splash-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 0.4; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .splash-version {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .splash-version i {
+      color: #0066FF;
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-container">
+    <div class="splash-bg"></div>
+    
+    <div class="splash-content">
+      <div class="splash-logo">
+        <i class="fas fa-shield-halved"></i>
+      </div>
+      <h1 class="splash-title"><span>iToken</span></h1>
+      <p class="splash-subtitle">安全守护 · 值得信赖</p>
+      
+      <div class="splash-loading">
+        <div class="splash-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="splash-version">
+      <i class="fas fa-lock"></i> v1.0.0
+    </div>
+  </div>
+</body>
+</html>

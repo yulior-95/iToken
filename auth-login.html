@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iToken - 68 APP授权登录</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      background: #FFFFFF;
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none;
+    }
+    .page-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    }
+
+    .auth-content {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .auth-animation {
+      position: relative;
+      margin-bottom: 32px;
+    }
+
+    .app-icons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .app-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .app-icon.itoken {
+      background: linear-gradient(135deg, #0066FF 0%, #00C2FF 100%);
+      color: white;
+    }
+
+    .app-icon.app68 {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .connection-line {
+      width: 50px;
+      height: 3px;
+      background: #E2E8F0;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .connection-line::after {
+      content: '';
+      display: block;
+      width: 25px;
+      height: 100%;
+      background: linear-gradient(90deg, #0066FF, #00C2FF);
+      border-radius: 2px;
+      animation: connectFlow 1.5s ease-in-out infinite;
+    }
+
+    @keyframes connectFlow {
+      0%, 100% { transform: translateX(-25px); }
+      50% { transform: translateX(50px); }
+    }
+
+    .auth-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1E293B;
+    }
+
+    .auth-desc {
+      color: #64748B;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      max-width: 280px;
+    }
+
+    .auth-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 12px;
+      color: #F59E0B;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .auth-status .loading-dot {
+      width: 8px;
+      height: 8px;
+      background: #F59E0B;
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .permissions-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 20px;
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .permissions-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      text-align: left;
+      color: #1E293B;
+    }
+
+    .permission-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    .permission-item:last-child {
+      border-bottom: none;
+    }
+
+    .permission-item i {
+      width: 34px;
+      height: 34px;
+      background: rgba(0, 102, 255, 0.08);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0066FF;
+      font-size: 15px;
+    }
+
+    .permission-item span {
+      font-size: 14px;
+      color: #64748B;
+      text-align: left;
+    }
+
+    .submit-section {
+      padding: 0 20px 36px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .help-link {
+      display: block;
+      text-align: center;
+      margin-top: 14px;
+      font-size: 14px;
+      color: #94A3B8;
+    }
+
+    .help-link a {
+      color: #0066FF;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <div class="icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="nav-bar">
+        <button class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <span class="title">授权登录</span>
+      </div>
+
+      <div class="auth-content">
+        <div class="auth-animation">
+          <div class="app-icons">
+            <div class="app-icon itoken">
+              <i class="fas fa-shield-halved"></i>
+            </div>
+            <div class="connection-line"></div>
+            <div class="app-icon app68">
+              <i class="fas fa-message"></i>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="auth-title">68 APP 授权登录</h1>
+        <p class="auth-desc">iToken 请求访问您的68账户信息以完成身份验证</p>
+
+        <div class="auth-status">
+          <div class="loading-dot"></div>
+          <span>等待68 APP确认授权...</span>
+        </div>
+
+        <div class="permissions-card">
+          <div class="permissions-title">授权内容</div>
+          <div class="permission-item">
+            <i class="fas fa-user"></i>
+            <span>获取您的账户基本信息</span>
+          </div>
+          <div class="permission-item">
+            <i class="fas fa-fingerprint"></i>
+            <span>验证您的身份信息</span>
+          </div>
+          <div class="permission-item">
+            <i class="fas fa-link"></i>
+            <span>绑定iToken安全设备</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-section">
+      <div class="btn-group">
+        <button class="btn btn-primary">
+          <i class="fas fa-external-link-alt"></i>
+          <span>打开 68 APP 授权</span>
+        </button>
+        <button class="btn btn-secondary">
+          <span>使用其他方式登录</span>
+        </button>
+      </div>
+      <p class="help-link">没有安装68 APP？<a href="#">立即下载</a></p>
+    </div>
+  </div>
+</body>
+</html>

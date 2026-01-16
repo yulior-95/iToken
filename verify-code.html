@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iToken - 验证码</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      background: #FFFFFF;
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none;
+    }
+    .page-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #FFFFFF;
+    }
+
+    .verify-content {
+      flex: 1;
+      padding: 20px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .verify-header {
+      margin-bottom: 28px;
+    }
+
+    .verify-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 20px;
+      background: rgba(0, 102, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .verify-icon i {
+      font-size: 32px;
+      color: #0066FF;
+    }
+
+    .verify-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1E293B;
+    }
+
+    .verify-desc {
+      color: #64748B;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .verify-target {
+      color: #0066FF;
+      font-weight: 600;
+    }
+
+    .code-input-container {
+      margin: 32px 0;
+    }
+
+    .code-inputs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .code-inputs input {
+      width: 48px;
+      height: 58px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      background: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: 12px;
+      color: #1E293B;
+    }
+
+    .code-inputs input:focus {
+      outline: none;
+      border-color: #0066FF;
+      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+    }
+
+    .code-inputs input.filled {
+      border-color: #0066FF;
+      background: rgba(0, 102, 255, 0.05);
+    }
+
+    .resend-section {
+      margin-top: 28px;
+    }
+
+    .resend-text {
+      color: #64748B;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .resend-btn {
+      color: #0066FF;
+      font-size: 15px;
+      font-weight: 600;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    .resend-btn:disabled {
+      color: #94A3B8;
+      cursor: not-allowed;
+    }
+
+    .timer {
+      color: #F59E0B;
+      font-weight: 600;
+    }
+
+    .submit-section {
+      padding: 0 20px 36px;
+    }
+
+    .help-section {
+      margin-top: 20px;
+      padding: 16px;
+      background: #F8FAFC;
+      border-radius: 14px;
+      text-align: left;
+    }
+
+    .help-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #1E293B;
+    }
+
+    .help-title i {
+      color: #F59E0B;
+    }
+
+    .help-list {
+      list-style: none;
+    }
+
+    .help-list li {
+      font-size: 13px;
+      color: #64748B;
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .help-list li::before {
+      content: '•';
+      color: #0066FF;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <div class="icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="nav-bar">
+        <button class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <span class="title">输入验证码</span>
+      </div>
+
+      <div class="verify-content">
+        <div class="verify-header">
+          <div class="verify-icon">
+            <i class="fas fa-message"></i>
+          </div>
+          <h1 class="verify-title">输入验证码</h1>
+          <p class="verify-desc">
+            验证码已发送至<br>
+            <span class="verify-target">138****8888</span>
+          </p>
+        </div>
+
+        <div class="code-input-container">
+          <div class="code-inputs">
+            <input type="text" maxlength="1" class="filled" value="8">
+            <input type="text" maxlength="1" class="filled" value="5">
+            <input type="text" maxlength="1" class="filled" value="2">
+            <input type="text" maxlength="1">
+            <input type="text" maxlength="1">
+            <input type="text" maxlength="1">
+          </div>
+        </div>
+
+        <div class="resend-section">
+          <p class="resend-text">没有收到验证码？</p>
+          <button class="resend-btn" disabled>
+            <span class="timer">52秒</span>后重新发送
+          </button>
+        </div>
+
+        <div class="help-section">
+          <div class="help-title">
+            <i class="fas fa-circle-question"></i>
+            <span>收不到验证码？</span>
+          </div>
+          <ul class="help-list">
+            <li>请检查手机是否欠费或信号正常</li>
+            <li>请检查短信是否被拦截到垃圾箱</li>
+            <li>请确认输入的号码是否正确</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-section">
+      <button class="btn btn-primary" disabled>
+        <span>验证并登录</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</body>
+</html>

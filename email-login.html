@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iToken - 邮箱登录</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      background: #FFFFFF;
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none;
+    }
+    .page-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #FFFFFF;
+    }
+
+    .form-section {
+      flex: 1;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .form-header {
+      margin-bottom: 32px;
+    }
+
+    .email-input {
+      position: relative;
+    }
+
+    .email-input i.icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94A3B8;
+      font-size: 18px;
+    }
+
+    .email-input input {
+      width: 100%;
+      padding: 16px 16px 16px 48px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      color: #1E293B;
+      font-size: 16px;
+    }
+
+    .email-input input:focus {
+      outline: none;
+      border-color: #0066FF;
+      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+    }
+
+    .email-input input:focus + i.icon {
+      color: #0066FF;
+    }
+
+    .email-input input::placeholder {
+      color: #94A3B8;
+    }
+
+    .email-suggestions {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .email-suggestion {
+      padding: 8px 14px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #64748B;
+      cursor: pointer;
+    }
+
+    .email-suggestion:hover {
+      border-color: #0066FF;
+      color: #0066FF;
+      background: rgba(0, 102, 255, 0.05);
+    }
+
+    .agreement {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 20px 0;
+      font-size: 13px;
+      color: #64748B;
+      line-height: 1.5;
+    }
+
+    .agreement input[type="checkbox"] {
+      display: none;
+    }
+
+    .agreement .checkbox {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      border: 2px solid #E2E8F0;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: white;
+    }
+
+    .agreement input:checked + .checkbox {
+      background: #0066FF;
+      border-color: #0066FF;
+    }
+
+    .agreement .checkbox i {
+      color: white;
+      font-size: 12px;
+      opacity: 0;
+    }
+
+    .agreement input:checked + .checkbox i {
+      opacity: 1;
+    }
+
+    .agreement a {
+      color: #0066FF;
+      text-decoration: none;
+    }
+
+    .submit-section {
+      padding: 0 20px 36px;
+    }
+
+    .tips {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: rgba(0, 102, 255, 0.05);
+      border-radius: 12px;
+      border-left: 3px solid #0066FF;
+    }
+
+    .tips-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #0066FF;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tips-content {
+      font-size: 13px;
+      color: #64748B;
+      line-height: 1.5;
+    }
+
+    .security-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      font-size: 12px;
+      color: #94A3B8;
+    }
+
+    .security-badge i {
+      color: #10B981;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <div class="icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="nav-bar">
+        <button class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <span class="title">邮箱登录</span>
+      </div>
+
+      <div class="form-section">
+        <div class="form-header">
+          <h1 class="page-title">输入邮箱地址</h1>
+          <p class="page-subtitle">请输入您在68 APP注册时使用的邮箱地址</p>
+        </div>
+
+        <div class="email-input-group">
+          <div class="email-input">
+            <input type="email" placeholder="example@email.com">
+            <i class="fas fa-envelope icon"></i>
+          </div>
+
+          <div class="email-suggestions">
+            <span class="email-suggestion">@gmail.com</span>
+            <span class="email-suggestion">@qq.com</span>
+            <span class="email-suggestion">@163.com</span>
+            <span class="email-suggestion">@outlook.com</span>
+          </div>
+        </div>
+
+        <label class="agreement">
+          <input type="checkbox" checked>
+          <span class="checkbox"><i class="fas fa-check"></i></span>
+          <span>我已阅读并同意 <a href="#">《用户服务协议》</a> 和 <a href="#">《隐私政策》</a></span>
+        </label>
+
+        <div class="tips">
+          <div class="tips-title"><i class="fas fa-lightbulb"></i> 温馨提示</div>
+          <div class="tips-content">验证码将在5分钟内有效，如未收到邮件请检查垃圾邮件文件夹。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-section">
+      <button class="btn btn-primary">
+        <span>获取验证码</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+      <div class="security-badge">
+        <i class="fas fa-shield-check"></i>
+        <span>SSL加密传输，保障您的信息安全</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

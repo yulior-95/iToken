@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iToken - 登录</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none;
+    }
+    .login-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    }
+
+    .login-header {
+      padding: 50px 24px 32px;
+      text-align: center;
+    }
+
+    .login-logo {
+      width: 88px;
+      height: 88px;
+      background: linear-gradient(135deg, #0066FF 0%, #00C2FF 100%);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 12px 32px rgba(0, 102, 255, 0.25);
+    }
+
+    .login-logo i {
+      font-size: 40px;
+      color: white;
+    }
+
+    .login-title {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1E293B;
+    }
+
+    .login-desc {
+      color: #64748B;
+      font-size: 15px;
+    }
+
+    .login-content {
+      flex: 1;
+      padding: 0 24px;
+    }
+
+    .login-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .login-method {
+      display: flex;
+      align-items: center;
+      padding: 18px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .login-method:hover {
+      border-color: #0066FF;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.12);
+    }
+
+    .login-method .method-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 14px;
+      font-size: 22px;
+    }
+
+    .login-method .method-icon.app {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .login-method .method-icon.phone {
+      background: linear-gradient(135deg, #0066FF 0%, #00C2FF 100%);
+      color: white;
+    }
+
+    .login-method .method-icon.email {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+    }
+
+    .login-method .method-info {
+      flex: 1;
+    }
+
+    .login-method .method-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: #1E293B;
+    }
+
+    .login-method .method-desc {
+      font-size: 13px;
+      color: #94A3B8;
+    }
+
+    .login-method .method-arrow {
+      color: #CBD5E1;
+      font-size: 16px;
+    }
+
+    .login-method.recommended {
+      border-color: #0066FF;
+      background: linear-gradient(135deg, rgba(0, 102, 255, 0.03) 0%, rgba(0, 194, 255, 0.03) 100%);
+      position: relative;
+    }
+
+    .login-method.recommended::before {
+      content: '推荐';
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      background: linear-gradient(135deg, #0066FF 0%, #00C2FF 100%);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 10px;
+    }
+
+    .login-footer {
+      padding: 24px;
+      text-align: center;
+    }
+
+    .login-footer p {
+      font-size: 13px;
+      color: #94A3B8;
+      line-height: 1.6;
+    }
+
+    .login-footer a {
+      color: #0066FF;
+      text-decoration: none;
+    }
+
+    .security-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border-radius: 12px;
+      margin-top: 28px;
+      font-size: 13px;
+      color: #10B981;
+    }
+
+    .security-note i {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <div class="icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <div class="login-header">
+      <div class="login-logo">
+        <i class="fas fa-shield-halved"></i>
+      </div>
+      <h1 class="login-title">欢迎使用 iToken</h1>
+      <p class="login-desc">选择一种方式登录您的账户</p>
+    </div>
+
+    <div class="login-content">
+      <div class="login-methods">
+        <a href="auth-login.html" class="login-method recommended">
+          <div class="method-icon app">
+            <i class="fas fa-mobile-screen"></i>
+          </div>
+          <div class="method-info">
+            <div class="method-title">68 APP 授权登录</div>
+            <div class="method-desc">快速安全，一键授权</div>
+          </div>
+          <i class="fas fa-chevron-right method-arrow"></i>
+        </a>
+
+        <a href="phone-login.html" class="login-method">
+          <div class="method-icon phone">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="method-info">
+            <div class="method-title">手机号登录</div>
+            <div class="method-desc">使用68注册手机号验证登录</div>
+          </div>
+          <i class="fas fa-chevron-right method-arrow"></i>
+        </a>
+
+        <a href="email-login.html" class="login-method">
+          <div class="method-icon email">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="method-info">
+            <div class="method-title">邮箱登录</div>
+            <div class="method-desc">使用68注册邮箱验证登录</div>
+          </div>
+          <i class="fas fa-chevron-right method-arrow"></i>
+        </a>
+      </div>
+
+      <div class="security-note">
+        <i class="fas fa-shield-check"></i>
+        <span>所有登录方式均采用端到端加密保护</span>
+      </div>
+    </div>
+
+    <div class="login-footer">
+      <p>登录即表示您同意 <a href="#">服务条款</a> 和 <a href="#">隐私政策</a></p>
+    </div>
+  </div>
+</body>
+</html>
