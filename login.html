@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     html, body {
-      overflow: hidden;
       height: 100%;
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -17,12 +16,17 @@
       display: none;
     }
     .login-container {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       position: relative;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
       background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+      scrollbar-width: none;
+    }
+    .login-container::-webkit-scrollbar {
+      display: none;
     }
 
     .login-header {
