@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>添加账户 - iToken</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background: linear-gradient(180deg, #F8FAFC 0%, #EEF2FF 100%);
+      min-height: 100vh;
+      overflow-y: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    body::-webkit-scrollbar { display: none; }
+
+    .app-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 状态栏 */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      background: transparent;
+    }
+
+    .status-bar .time {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1E293B;
+    }
+
+    .status-bar .icons {
+      display: flex;
+      gap: 6px;
+      font-size: 14px;
+      color: #1E293B;
+    }
+
+    /* 导航栏 */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: transparent;
+    }
+
+    .nav-bar .back-btn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border-radius: 12px;
+      color: #1E293B;
+      font-size: 18px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .nav-bar .title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #1E293B;
+    }
+
+    .nav-bar .placeholder {
+      width: 40px;
+    }
+
+    /* 主内容 */
+    .content {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 顶部说明 */
+    .header-section {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #0066FF, #00C2FF);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 12px 32px rgba(0, 102, 255, 0.3);
+    }
+
+    .header-icon i {
+      font-size: 36px;
+      color: white;
+    }
+
+    .header-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1E293B;
+      margin-bottom: 8px;
+    }
+
+    .header-desc {
+      font-size: 14px;
+      color: #64748B;
+      line-height: 1.6;
+    }
+
+    /* 绑定方式选项 */
+    .bind-options {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .bind-option {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .bind-option:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .bind-option:active {
+      transform: scale(0.98);
+    }
+
+    .bind-option.recommended {
+      border: 2px solid #0066FF;
+      position: relative;
+    }
+
+    .bind-option.recommended::before {
+      content: '推荐';
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, #0066FF, #00C2FF);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 10px;
+    }
+
+    .option-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .option-icon.scan {
+      background: linear-gradient(135deg, #0066FF, #00C2FF);
+      color: white;
+    }
+
+    .option-icon.manual {
+      background: linear-gradient(135deg, #10B981, #34D399);
+      color: white;
+    }
+
+    .option-icon.import {
+      background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+      color: white;
+    }
+
+    .option-content {
+      flex: 1;
+    }
+
+    .option-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1E293B;
+      margin-bottom: 4px;
+    }
+
+    .option-desc {
+      font-size: 13px;
+      color: #64748B;
+      line-height: 1.4;
+    }
+
+    .option-arrow {
+      color: #CBD5E1;
+      font-size: 16px;
+    }
+
+    /* 已绑定账户列表 */
+    .bound-section {
+      margin-top: auto;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748B;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      padding-left: 4px;
+    }
+
+    .bound-accounts {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .bound-account {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    .bound-account:last-child {
+      border-bottom: none;
+    }
+
+    .account-avatar {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #0066FF, #00C2FF);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .account-info {
+      flex: 1;
+    }
+
+    .account-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1E293B;
+      margin-bottom: 2px;
+    }
+
+    .account-id {
+      font-size: 12px;
+      color: #64748B;
+    }
+
+    .account-status {
+      padding: 4px 10px;
+      background: #ECFDF5;
+      color: #10B981;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+
+    /* 底部提示 */
+    .bottom-tip {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #94A3B8;
+      line-height: 1.6;
+    }
+
+    .bottom-tip i {
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <div class="icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="nav-bar">
+      <div class="back-btn">
+        <i class="fas fa-chevron-left"></i>
+      </div>
+      <span class="title">添加账户</span>
+      <div class="placeholder"></div>
+    </div>
+
+    <!-- 主内容 -->
+    <div class="content">
+      <!-- 顶部说明 -->
+      <div class="header-section">
+        <div class="header-icon">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <h1 class="header-title">关联新账户</h1>
+        <p class="header-desc">将其他68账户与此iToken设备关联<br>实现多账户统一安全验证</p>
+      </div>
+
+      <!-- 绑定方式选项 -->
+      <div class="bind-options">
+        <div class="bind-option recommended">
+          <div class="option-icon scan">
+            <i class="fas fa-qrcode"></i>
+          </div>
+          <div class="option-content">
+            <div class="option-title">扫码绑定</div>
+            <div class="option-desc">扫描68 APP中的绑定二维码，快速完成关联</div>
+          </div>
+          <i class="fas fa-chevron-right option-arrow"></i>
+        </div>
+
+        <div class="bind-option">
+          <div class="option-icon manual">
+            <i class="fas fa-keyboard"></i>
+          </div>
+          <div class="option-content">
+            <div class="option-title">手动输入</div>
+            <div class="option-desc">输入68账户ID和绑定密钥进行关联</div>
+          </div>
+          <i class="fas fa-chevron-right option-arrow"></i>
+        </div>
+
+        <div class="bind-option">
+          <div class="option-icon import">
+            <i class="fas fa-file-import"></i>
+          </div>
+          <div class="option-content">
+            <div class="option-title">从备份恢复</div>
+            <div class="option-desc">从加密备份文件中恢复已绑定的账户</div>
+          </div>
+          <i class="fas fa-chevron-right option-arrow"></i>
+        </div>
+      </div>
+
+      <!-- 已绑定账户 -->
+      <div class="bound-section">
+        <div class="section-title">已绑定账户 (2)</div>
+        <div class="bound-accounts">
+          <div class="bound-account">
+            <div class="account-avatar">68</div>
+            <div class="account-info">
+              <div class="account-name">主账户</div>
+              <div class="account-id">ID: 138****8888</div>
+            </div>
+            <span class="account-status">已激活</span>
+          </div>
+          <div class="bound-account">
+            <div class="account-avatar">68</div>
+            <div class="account-info">
+              <div class="account-name">工作账户</div>
+              <div class="account-id">ID: 139****6666</div>
+            </div>
+            <span class="account-status">已激活</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部提示 -->
+      <div class="bottom-tip">
+        <i class="fas fa-shield-halved"></i>
+        每个iToken设备最多可关联10个68账户
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
